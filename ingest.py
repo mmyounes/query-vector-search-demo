@@ -4,7 +4,6 @@ from couchbase.cluster import Cluster
 from couchbase.auth import PasswordAuthenticator
 from couchbase.options import ClusterOptions
 
-# from openai import OpenAI
 from datetime import timedelta
 from tqdm import tqdm
 import uuid
@@ -37,7 +36,7 @@ def check_environment_variable(variable_name):
 
 
 # Ensure that all environment variables are set
-check_environment_variable("OPENAI_API_KEY")
+check_environment_variable("GEMINI_API_KEY")
 check_environment_variable("DB_CONN_STR")
 check_environment_variable("DB_USERNAME")
 check_environment_variable("DB_PASSWORD")
@@ -45,7 +44,9 @@ check_environment_variable("DB_BUCKET")
 check_environment_variable("DB_SCOPE")
 check_environment_variable("DB_COLLECTION")
 
-client = OpenAI()
+CHAT_MODEL = "gemini-2.5-flash"
+client = OpenAI(api_key=os.environ["GEMINI_API_KEY"],
+    base_url="https://generativelanguage.googleapis.com/v1beta/openai/",)
 
 
 def connect_to_couchbase(connection_string, db_username, db_password):
@@ -63,11 +64,10 @@ def connect_to_couchbase(connection_string, db_username, db_password):
 
 
 def generate_embeddings(client, input_data: str):
-    """Generate OpenAI embeddings for the input data"""
+    """Generate Gemini embeddings for the input data"""
     response = client.embeddings.create(
         input=input_data,
         model=EMBEDDING_MODEL,
-        extra_body={"input_type": "query", "truncate": "NONE"},
     )
     return response.data[0].embedding
 

@@ -10,9 +10,14 @@ You can perform semantic searches for movies based on the plot synopsis. Additio
 
 ![movie search demo](movie_search_demo.png)
 
-The hybrid search can be performed using both the Couchbase Python SDK & the LangChain Vector Store integration for Couchbase. Here we show how to use the LangChain integration. We use OpenAI for generating the embeddings.
+The hybrid search can be performed using both the Couchbase Python SDK & the LangChain Vector Store integration for Couchbase. Here we show how to use the LangChain integration. We use Gemini for generating the embeddings.
 
 ### How to Run
+
+- #### Create a new virtual environment for python
+
+  `python3 -m venv .venv`
+  `. .venv/bin/activate`
 
 - #### Install dependencies
 
@@ -25,7 +30,7 @@ The hybrid search can be performed using both the Couchbase Python SDK & the Lan
   > For the ingestion script, the same environment variables need to be set in the environment (using `.env` file from `.env.example`) as it runs outside the Streamlit environment.
 
   ```
-  OPENAI_API_KEY = "<open_ai_api_key>"
+  GEMINI_API_KEY = "<open_ai_api_key>"
   DB_CONN_STR = "<connection_string_for_couchbase_cluster>"
   DB_USERNAME = "<username_for_couchbase_cluster>"
   DB_PASSWORD = "<password_for_couchbase_cluster>"
@@ -33,7 +38,7 @@ The hybrid search can be performed using both the Couchbase Python SDK & the Lan
   DB_SCOPE = "<name_of_scope_to_store_documents>"
   DB_COLLECTION = "<name_of_collection_to_store_documents>"
   INDEX_NAME = "<name_of_search_index_with_vector_support>"
-  EMBEDDING_MODEL = "text-embedding-3-small" # OpenAI embedding model to use to encode the documents
+  EMBEDDING_MODEL = "gemini-embedding-001" # Gemini embedding model to use to encode the documents
   ```
 
 - #### Ingest the Documents

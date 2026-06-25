@@ -6,7 +6,7 @@ import streamlit as st
 from couchbase.auth import PasswordAuthenticator
 from couchbase.cluster import Cluster
 from couchbase.options import ClusterOptions
-from langchain_openai import OpenAIEmbeddings
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from openai import OpenAI
 
 from langchain_couchbase import CouchbaseQueryVectorStore
@@ -23,7 +23,7 @@ def check_environment_variable(variable_name):
 
 
 def generate_embeddings(client, input_data):
-    """Generate OpenAI embeddings for the input data"""
+    """Generate Gemini embeddings for the input data"""
     response = client.embeddings.create(input=input_data, model=EMBEDDING_MODEL)
     return response.data[0].embedding
 
@@ -128,7 +128,7 @@ if __name__ == "__main__":
         EMBEDDING_MODEL = "text-embedding-3-small"
 
     # Ensure that all environment variables are set
-    check_environment_variable("OPENAI_API_KEY")
+    check_environment_variable("GEMINI_API_KEY")
     check_environment_variable("DB_CONN_STR")
     check_environment_variable("DB_USERNAME")
     check_environment_variable("DB_PASSWORD")
@@ -139,12 +139,14 @@ if __name__ == "__main__":
     # Initialize empty filters
     search_filters = {}
 
-    # Native OpenAI library for generating embeddings
+    # Native OpenAI library for generating embeddings from the Gemini API
+    CHAT_MODEL = "gemini-2.5-flash"
     openai_embedding_client = OpenAI(
-        api_key=os.getenv("OPENAI_API_KEY"),
+        api_key=os.environ["GEMINI_API_KEY"],
+        base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
     )
-
-    embedding = OpenAIEmbeddings(
+    
+    embedding = GoogleGenerativeAIEmbeddings(
         model=EMBEDDING_MODEL,
     )
 
