@@ -16,12 +16,16 @@ The hybrid search can be performed using both the Couchbase Python SDK & the Lan
 
 - #### Create a new virtual environment for python
 
-  `python3 -m venv .venv`
-  `. .venv/bin/activate`
+  ``` SHELL
+  python3 -m venv .venv
+  . .venv/bin/activate
+  ```
 
 - #### Install dependencies
 
-  `pip install -r requirements.txt`
+  ``` SHELL
+  pip install -r requirements.txt
+  ```
 
 - #### Set the environment secrets
 
@@ -47,8 +51,14 @@ The hybrid search can be performed using both the Couchbase Python SDK & the Lan
 
   To ingest the documents including generating the embeddings for the Overview field, you can run the script, `ingest.py`
 
-  `python ingest.py`
+  > Note that if you are using a free tier API key from Gemini, you might get errors regarding exceeding your quota. The free tier is limited and the ingestion process fires many embedding calls quickly. Ignore the errors as the script will keep retrying to create the embeddings.
+
+  ``` 
+  python ingest.py
+  ```
 
 - #### Run the application
 
-  `streamlit run movies_search.py`
+  ```
+  streamlit run movies_search.py
+  ```
