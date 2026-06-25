@@ -43,6 +43,10 @@ def connect_to_couchbase(connection_string, db_username, db_password):
 
     auth = PasswordAuthenticator(db_username, db_password)
     options = ClusterOptions(auth)
+
+    # Uncomment the following the line if you are connecting to Capella
+    # options.apply_profile("wan")
+    
     connect_string = connection_string
     cluster = Cluster(connect_string, options)
 
